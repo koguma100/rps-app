@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissors Showdown</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Rock Paper Scissors Showdown</h1>
+
+    <video id="video" width="320" height="240" autoplay></video>
+    <div id="countdown"></div>
+    <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+
+    <button onclick="captureAndSend()">Capture & Play</button>
+
+    <div id="result"></div>
+    <img id="preview" src="" alt="Captured Image" style="display: none;">
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const resultDiv = document.getElementById('result');
+        const preview = document.getElementById('preview');
+
+        // Access webcam
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => video.srcObject = stream)
+            .catch(err => console.error('Camera access denied', err));
+
+        function captureAndSend() {
+            const countdownEl = document.getElementById('countdown');
+            const button = document.querySelector('button');
+            let count = 3;
+
+            countdownEl.style.display = 'block';
+            button.disabled = true;
+            countdownEl.innerText = count;
+
+            const countdownInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    countdownEl.innerText = count;
+                } else {
+                    clearInterval(countdownInterval);
+                    countdownEl.style.display = 'none';
+                    button.disabled = false;
+
+                    const context = canvas.getContext('2d');
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const dataUrl = canvas.toDataURL('image/jpeg');
+
+                    preview.src = dataUrl;
+                    preview.style.display = 'block';
+
+                    fetch('/predict', {
+                        method: 'POST',
+                        body: new URLSearchParams({ image: dataUrl }),
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.error) {
+                            resultDiv.innerText = 'Error: ' + data.error;
+                        } else {
+                            resultDiv.innerHTML = `
+                                <p><strong>Your move:</strong> ${data.user_move}</p>
+                                <p><strong>Computer move:</strong> ${data.computer_move.charAt(0).toUpperCase() + data.computer_move.slice(1)}</p>
+                                <p><strong>Result:</strong> ${data.result}</p>
+                            `;
+                        }
+                    })
+                    .catch(err => {
+                        resultDiv.innerText = 'Prediction failed';
+                        console.error(err);
+                    });
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

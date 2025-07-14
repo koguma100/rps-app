@@ -1,0 +1,72 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(circle at top, #111 0%, #222 100%);
+    color: #f0f0f0;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    padding: 2rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #00ffe0;
+    text-shadow: 0 0 10px #00ffe0;
+}
+
+video, canvas {
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 255, 200, 0.3);
+    margin: 1rem 0;
+}
+
+button {
+    background: linear-gradient(145deg, #00ffe0, #008c85);
+    color: #000;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 255, 200, 0.3);
+}
+
+button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(145deg, #00fff7, #00aaa3);
+}
+
+#result {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    background-color: #1a1a1a;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 200, 0.2);
+    width: 300px;
+    max-width: 90%;
+}
+
+#preview {
+    margin-top: 1rem;
+    max-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 255, 200, 0.4);
+}
+
+#countdown {
+    position: absolute;
+    top: 30%;
+    font-size: 5rem;
+    color: #00ffe0;
+    text-shadow: 0 0 20px #00ffe0;
+    z-index: 10;
+    display: none;
+}
