@@ -65,5 +65,4 @@ def predict():
     })
 
 if __name__ == "__main__":
-    host = "0.0.0.0" if os.environ.get("FLASK_ENV") == "production" else "127.0.0.1"
-    app.run(host=host, port=5000)
+    app.run()
