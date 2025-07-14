@@ -1,6 +1,6 @@
-#Rock Paper Scissors Game
+# Rock Paper Scissors Game
 
-##Uses YOLO model to predict hand symbol 
+## Uses YOLO model to predict hand symbol 
 Trained using https://www.kaggle.com/datasets/hectorandac/rock-paper-scissors-yolo-annotated 
 
 
